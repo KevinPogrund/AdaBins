@@ -152,7 +152,8 @@ if __name__ == '__main__':
     import matplotlib.pyplot as plt
     from time import time
 
-    img = Image.open("test_imgs/classroom__rgb_00283.jpg")
+    img = Image.open("images/wide.png") #change this path to the image of choice
+    #may need to make this a loop
     start = time()
     inferHelper = InferenceHelper()
     centers, pred = inferHelper.predict_pil(img)
