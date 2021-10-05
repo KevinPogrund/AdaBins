@@ -151,8 +151,8 @@ class InferenceHelper:
 if __name__ == '__main__':
     import matplotlib.pyplot as plt
     from time import time
-
-    img = Image.open("images/wide.png") #change this path to the image of choice
+#qwerty
+    img = Image.open("../images/pic.png") #change this path to the image of choice
     #may need to make this a loop
     start = time()
     inferHelper = InferenceHelper()
