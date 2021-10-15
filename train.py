@@ -33,7 +33,7 @@ def is_rank_zero(args):
 import matplotlib
 
 
-def colorize(value, vmin=10, vmax=1000, cmap='plasma'):
+def colorize(value, vmin=10, vmax=1000, cmap='jet'):
     # normalize
     vmin = value.min() if vmin is None else vmin
     vmax = value.max() if vmax is None else vmax
