@@ -151,13 +151,31 @@ class InferenceHelper:
 if __name__ == '__main__':
     import matplotlib.pyplot as plt
     from time import time
-#qwerty
-    img = Image.open("../images/pic.png") #change this path to the image of choice
+
+
+    folder = "../images"
+    imgs = os.listdir(folder)  # list of images in the folder
+    for i in imgs:
+        if not i.endswith((".png", ".jpg")):
+            continue  # ensures continuous code
+        img_loc = folder + "/" + i
+        img = Image.open(img_loc)
+        print(img_loc)
+        start = time()
+        inferHelper = InferenceHelper()
+        centers, pred = inferHelper.predict_pil(img)
+        print(f"took: {time() - start}s")
+
+        plt.imsave("./ada/{}".format(i), pred.squeeze(), cmap='binary_r')
+    print("done")
+
+    """"
     #may need to make this a loop
+    img = Image.open("../images/pic.png") #change this path to the image of choice
     start = time()
     inferHelper = InferenceHelper()
     centers, pred = inferHelper.predict_pil(img)
     print(f"took: {time() - start}s")
-    # plt.imshow(pred.squeeze(), cmap='binary_r')
-    # plt.show()
-    plt.imsave("pic.png", pred.squeeze(), cmap='binary_r')
+
+    plt.imsave("./ada/pic.png", pred.squeeze(), cmap='binary_r')
+    """
