@@ -325,18 +325,18 @@ if __name__ == '__main__':
     parser.add_argument("--workers", default=11, type=int, help="Number of workers for data loading")
     parser.add_argument("--dataset", default='nyu', type=str, help="Dataset to train on")
 
-    parser.add_argument("--data_path", default='../dataset/nyu/sync/', type=str,
+    parser.add_argument("--data_path", default='../Unstructured/train/rgb/', type=str,
                         help="path to dataset")
-    parser.add_argument("--gt_path", default='../dataset/nyu/sync/', type=str,
+    parser.add_argument("--gt_path", default='../Unstructured/train/gt/', type=str,
                         help="path to dataset")
 
     parser.add_argument('--filenames_file',
-                        default="./train_test_inputs/nyudepthv2_train_files_with_gt.txt",
+                        default="./train_uns.txt",
                         type=str, help='path to the filenames text file')
 
-    parser.add_argument('--input_height', type=int, help='input height', default=416)
-    parser.add_argument('--input_width', type=int, help='input width', default=544)
-    parser.add_argument('--max_depth', type=float, help='maximum depth in estimation', default=10)
+    parser.add_argument('--input_height', type=int, help='input height', default=480)
+    parser.add_argument('--input_width', type=int, help='input width', default=640)
+    parser.add_argument('--max_depth', type=float, help='maximum depth in estimation', default=80)
     parser.add_argument('--min_depth', type=float, help='minimum depth in estimation', default=1e-3)
 
     parser.add_argument('--do_random_rotate', default=True,
@@ -348,12 +348,12 @@ if __name__ == '__main__':
                         action='store_true')
 
     parser.add_argument('--data_path_eval',
-                        default="../dataset/nyu/official_splits/test/",
+                        default="../Unstructured/eval/rgb/",
                         type=str, help='path to the data for online evaluation')
-    parser.add_argument('--gt_path_eval', default="../dataset/nyu/official_splits/test/",
+    parser.add_argument('--gt_path_eval', default="../Unstructured/eval/gt/",
                         type=str, help='path to the groundtruth data for online evaluation')
     parser.add_argument('--filenames_file_eval',
-                        default="./train_test_inputs/nyudepthv2_test_files_with_gt.txt",
+                        default="./eval_uns.txt",
                         type=str, help='path to the filenames text file for online evaluation')
 
     parser.add_argument('--min_depth_eval', type=float, help='minimum depth for evaluation', default=1e-3)
