@@ -62,6 +62,7 @@ def log_images(img, depth, pred, args, step):
             "Input": [wandb.Image(img)],
             "GT": [wandb.Image(depth)],
             "Prediction": [wandb.Image(pred)]
+            # "Loss": [loss]
         }, step=step)
 
 
@@ -126,7 +127,7 @@ def train(model, args, epochs=10, experiment_name="DeepLab", lr=0.0001, root="."
         if args.dataset != 'nyu':
             PROJECT = PROJECT + f"-{args.dataset}"
         wandb.init(project=PROJECT, name=name, config=args, dir=args.root, tags=tags, notes=args.notes)
-        # wandb.watch(model)
+        wandb.watch(model)
     ################################################################################################
 
     train_loader = DepthDataLoader(args, 'train').data
