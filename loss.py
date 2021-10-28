@@ -1,5 +1,6 @@
 import torch
 import torch.nn as nn
+import pytorch3d
 from pytorch3d.loss import chamfer_distance
 from torch.nn.utils.rnn import pad_sequence
 
