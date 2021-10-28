@@ -62,7 +62,6 @@ def log_images(img, depth, pred, args, step):
             "Input": [wandb.Image(img)],
             "GT": [wandb.Image(depth)],
             "Prediction": [wandb.Image(pred)]
-            # "Loss": [loss]
         }, step=step)
 
 
@@ -171,6 +170,7 @@ def train(model, args, epochs=10, experiment_name="DeepLab", lr=0.0001, root="."
 
     # max_iter = len(train_loader) * epochs
     for epoch in range(args.epoch, epochs):
+        should_log = True
         ################################# Train loop ##########################################################
         if should_log: wandb.log({"Epoch": epoch}, step=step)
         for i, batch in tqdm(enumerate(train_loader), desc=f"Epoch: {epoch + 1}/{epochs}. Loop: Train",
@@ -229,6 +229,8 @@ def train(model, args, epochs=10, experiment_name="DeepLab", lr=0.0001, root="."
                     model_io.save_checkpoint(model, optimizer, epoch, f"{experiment_name}_{run_id}_best.pt",
                                              root=os.path.join(root, "checkpoints"))
                     best_loss = metrics['abs_rel']
+
+
                 model.train()
                 #################################################################################################
     wandb.log({
@@ -329,17 +331,17 @@ if __name__ == '__main__':
     parser.add_argument("--workers", default=11, type=int, help="Number of workers for data loading")
     parser.add_argument("--dataset", default='nyu', type=str, help="Dataset to train on")
 
-    parser.add_argument("--data_path", default='../Unstructured/train/rgb/', type=str,
+    parser.add_argument("--data_path", default='./Unstructured/train/rgb/', type=str,
                         help="path to dataset")
-    parser.add_argument("--gt_path", default='../Unstructured/train/gt/', type=str,
+    parser.add_argument("--gt_path", default='./Unstructured/train/gt/', type=str,
                         help="path to dataset")
 
     parser.add_argument('--filenames_file',
                         default="./train_uns.txt",
                         type=str, help='path to the filenames text file')
 
-    parser.add_argument('--input_height', type=int, help='input height', default=480)
-    parser.add_argument('--input_width', type=int, help='input width', default=640)
+    parser.add_argument('--input_height', type=int, help='input height', default=427)
+    parser.add_argument('--input_width', type=int, help='input width', default=565)
     parser.add_argument('--max_depth', type=float, help='maximum depth in estimation', default=80)
     parser.add_argument('--min_depth', type=float, help='minimum depth in estimation', default=1e-3)
 
@@ -352,9 +354,9 @@ if __name__ == '__main__':
                         action='store_true')
 
     parser.add_argument('--data_path_eval',
-                        default="../Unstructured/eval/rgb/",
+                        default="./Unstructured/eval/rgb/",
                         type=str, help='path to the data for online evaluation')
-    parser.add_argument('--gt_path_eval', default="../Unstructured/eval/gt/",
+    parser.add_argument('--gt_path_eval', default="./Unstructured/eval/gt/",
                         type=str, help='path to the groundtruth data for online evaluation')
     parser.add_argument('--filenames_file_eval',
                         default="./eval_uns.txt",
