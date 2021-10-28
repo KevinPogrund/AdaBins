@@ -231,7 +231,10 @@ def train(model, args, epochs=10, experiment_name="DeepLab", lr=0.0001, root="."
                     best_loss = metrics['abs_rel']
                 model.train()
                 #################################################################################################
-
+    wandb.log({
+        "Epoch": epoch,
+        "Train loss": loss,
+    })
     return model
 
 
