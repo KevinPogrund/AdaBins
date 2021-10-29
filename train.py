@@ -104,8 +104,23 @@ def main_worker(gpu, ngpus_per_node, args):
 
     args.epoch = 0
     args.last_epoch = -1
+    #freeze parameters
+
+    for param in model.parameters():
+        param.requires_grad = False
+
+    for name, child in model.named_children():
+        if 'encoder' not in name:
+            continue
+        for name2, parameters in child.named_parameters():
+            print(name, name2)
+            # if any(x in name2 for x in unfreeze_layers):
+            #     parameters.requires_grad = True
+
+
     train(model, args, epochs=args.epochs, lr=args.lr, device=args.gpu, root=args.root,
           experiment_name=args.name, optimizer_state_dict=None)
+    return
 
 
 def train(model, args, epochs=10, experiment_name="DeepLab", lr=0.0001, root=".", device=None,
@@ -312,7 +327,8 @@ if __name__ == '__main__':
     parser.add_argument('--final-div-factor', '--final_div_factor', default=100, type=float,
                         help="final div factor for lr")
 
-    parser.add_argument('--bs', default=16, type=int, help='batch size')
+    parser.add_argument('--bs', default=
+                        3, type=int, help='batch size')
     parser.add_argument('--validate-every', '--validate_every', default=100, type=int, help='validation period')
     parser.add_argument('--gpu', default=None, type=int, help='Which gpu to use')
     parser.add_argument("--name", default="UnetAdaptiveBins")
