@@ -106,7 +106,8 @@ def main_worker(gpu, ngpus_per_node, args):
     args.last_epoch = -1
     #freeze parameters
 
-    for param in model.parameters():
+    for param in model.named_parameters():
+        print(param)
         param.requires_grad = False
 
     for name, child in model.named_children():
