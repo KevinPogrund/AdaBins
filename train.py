@@ -106,11 +106,11 @@ def main_worker(gpu, ngpus_per_node, args):
     args.last_epoch = -1
     #freeze parameters
 
-    for param in model.named_parameters():
+    for param in model.module.named_parameters():
         # print(param)
         param.requires_grad = False
 
-    for name, child in model.named_children():
+    for name, child in model.module.named_children():
         if 'encoder' not in name:
             continue
         for name2, parameters in child.named_parameters():
@@ -118,7 +118,7 @@ def main_worker(gpu, ngpus_per_node, args):
             # if any(x in name2 for x in unfreeze_layers):
             #     parameters.requires_grad = True
     print("************************************************")
-    for name, param in model.named_parameters():
+    for name, param in model.module.named_parameters():
         if param.requires_grad:
             print(name)
 
