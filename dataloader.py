@@ -125,7 +125,8 @@ class DataLoadPreprocess(Dataset):
                 depth_gt = depth_gt / 1000.0
             else:
                 depth_gt = depth_gt / 256.0
-            depth_gt = depth_gt * 256.0
+            depth_gt = (depth_gt -depth_gt.max())/(depth_gt.max()-depth_gt.min())  # normalize to 0-1
+
             print(f"depth gt max {depth_gt.max()}")
             print(f"image max {image.max()}")
             image, depth_gt = self.random_crop(image, depth_gt, self.args.input_height, self.args.input_width)
@@ -159,7 +160,8 @@ class DataLoadPreprocess(Dataset):
                         depth_gt = depth_gt / 1000.0
                     else:
                         depth_gt = depth_gt / 256.0
-                depth_gt = depth_gt * 256.0
+
+                depth_gt = (depth_gt - depth_gt.max()) / (depth_gt.max() - depth_gt.min())  # normalize to 0-1
             if self.args.do_kb_crop is True:
                 height = image.shape[0]
                 width = image.shape[1]
