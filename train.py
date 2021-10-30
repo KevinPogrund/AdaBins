@@ -107,7 +107,7 @@ def main_worker(gpu, ngpus_per_node, args):
     #freeze parameters
 
     for param in model.named_parameters():
-        print(param)
+        # print(param)
         param.requires_grad = False
 
     for name, child in model.named_children():
@@ -117,7 +117,10 @@ def main_worker(gpu, ngpus_per_node, args):
             print(name, name2)
             # if any(x in name2 for x in unfreeze_layers):
             #     parameters.requires_grad = True
-
+    print("************************************************")
+    for name, param in model.named_parameters():
+        if param.requires_grad:
+            print(name)
 
     train(model, args, epochs=args.epochs, lr=args.lr, device=args.gpu, root=args.root,
           experiment_name=args.name, optimizer_state_dict=None)
