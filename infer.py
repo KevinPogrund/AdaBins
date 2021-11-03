@@ -153,7 +153,7 @@ if __name__ == '__main__':
     from time import time
 
 
-    folder = "../images"
+    folder = "./Unstructured/eval/rgb"
     imgs = os.listdir(folder)  # list of images in the folder
     for i in imgs:
         if not i.endswith((".png", ".jpg")):
@@ -166,7 +166,7 @@ if __name__ == '__main__':
         centers, pred = inferHelper.predict_pil(img)
         print(f"took: {time() - start}s")
 
-        plt.imsave("./ada/{}".format(i), pred.squeeze(), cmap='binary_r')
+        plt.imsave("./ada/{}".format(i), pred.squeeze(), cmap='jet')
     print("done")
 
     """"

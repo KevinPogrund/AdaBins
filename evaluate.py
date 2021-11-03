@@ -99,7 +99,7 @@ def eval(model, test_loader, args, gpus=None, ):
                     impath = dpath[1] + "_" + dpath[-1]
                     impath = impath.split('.')[0]
                     factor = 256
-
+                    # factor = 1
                 # rgb_path = os.path.join(rgb_dir, f"{impath}.png")
                 # tf.ToPILImage()(denormalize(image.squeeze().unsqueeze(0).cpu()).squeeze()).save(rgb_path)
 
@@ -134,7 +134,7 @@ def eval(model, test_loader, args, gpus=None, ):
             #             gt = gt[valid_mask]
             #             final = final[valid_mask]
 
-            metrics.update(compute_errors(gt[valid_mask], final[valid_mask]))
+            metrics.update(compute_errors(gt[valid_mask]*12.8, final[valid_mask]))
 
     print(f"Total invalid: {total_invalid}")
     metrics = {k: round(v, 3) for k, v in metrics.get_value().items()}
@@ -156,43 +156,45 @@ if __name__ == '__main__':
     parser.convert_arg_line_to_args = convert_arg_line_to_args
     parser.add_argument('--n-bins', '--n_bins', default=256, type=int,
                         help='number of bins/buckets to divide depth range into')
-    parser.add_argument('--gpu', default=None, type=int, help='Which gpu to use')
+    parser.add_argument('--gpu', default=0, type=int, help='Which gpu to use')
     parser.add_argument('--save-dir', '--save_dir', default=None, type=str, help='Store predictions in folder')
     parser.add_argument("--root", default=".", type=str,
                         help="Root folder to save data in")
 
-    parser.add_argument("--dataset", default='nyu', type=str, help="Dataset to train on")
+    parser.add_argument("--dataset", default='kitti', type=str, help="Dataset to train on")
 
-    parser.add_argument("--data_path", default='../dataset/nyu/sync/', type=str,
+    parser.add_argument("--data_path", default='../../Unstructured/train/rgb', type=str,
                         help="path to dataset")
-    parser.add_argument("--gt_path", default='../dataset/nyu/sync/', type=str,
+    parser.add_argument("--gt_path", default='../../Unstructured/train/gt', type=str,
                         help="path to dataset gt")
 
     parser.add_argument('--filenames_file',
-                        default="./train_test_inputs/nyudepthv2_train_files_with_gt.txt",
+                        default="./train_uns.txt.txt",
                         type=str, help='path to the filenames text file')
 
-    parser.add_argument('--input_height', type=int, help='input height', default=416)
-    parser.add_argument('--input_width', type=int, help='input width', default=544)
+    parser.add_argument('--input_height', type=int, help='input height', default=480)
+    parser.add_argument('--input_width', type=int, help='input width', default=640)
     parser.add_argument('--max_depth', type=float, help='maximum depth in estimation', default=10)
     parser.add_argument('--min_depth', type=float, help='minimum depth in estimation', default=1e-3)
 
     parser.add_argument('--do_kb_crop', help='if set, crop input images as kitti benchmark images', action='store_true')
 
     parser.add_argument('--data_path_eval',
-                        default="../dataset/nyu/official_splits/test/",
+                        default="./Unstructured/eval/rgb",
                         type=str, help='path to the data for online evaluation')
-    parser.add_argument('--gt_path_eval', default="../dataset/nyu/official_splits/test/",
+    parser.add_argument('--gt_path_eval', default="./Unstructured/eval/gt",
                         type=str, help='path to the groundtruth data for online evaluation')
     parser.add_argument('--filenames_file_eval',
-                        default="./train_test_inputs/nyudepthv2_test_files_with_gt.txt",
+                        default="./eval_uns.txt",
                         type=str, help='path to the filenames text file for online evaluation')
-    parser.add_argument('--checkpoint_path', '--checkpoint-path', type=str, required=True,
-                        help="checkpoint file to use for prediction")
+    # parser.add_argument('--checkpoint_path', '--checkpoint-path', type=str, required=True,
+    #                     help="checkpoint file to use for prediction")
+    parser.add_argument('--checkpoint_path', type=str, required=True,
+                        help="checkpoint file to use for prediction", default='./pretrained/AdaBins_kitti.pt')
 
     parser.add_argument('--min_depth_eval', type=float, help='minimum depth for evaluation', default=1e-3)
     parser.add_argument('--max_depth_eval', type=float, help='maximum depth for evaluation', default=10)
-    parser.add_argument('--eigen_crop', help='if set, crops according to Eigen NIPS14', action='store_true')
+    parser.add_argument('--eigen_crop', help='if set, crops according to Eigen NIPS14', type=bool, default=True)
     parser.add_argument('--garg_crop', help='if set, crops according to Garg  ECCV16', action='store_true')
     parser.add_argument('--do_kb_crop', help='Use kitti benchmark cropping', action='store_true')
 

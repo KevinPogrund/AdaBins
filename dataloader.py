@@ -95,7 +95,7 @@ class DataLoadPreprocess(Dataset):
                 depth_path = os.path.join(self.args.gt_path, remove_leading_slash(sample_path.split()[1]))
 
             image = Image.open(image_path)
-            depth_gt = Image.open(depth_path)
+            depth_gt = Image.open(depth_path)*12.8
 
             if self.args.do_kb_crop is True:
                 height = image.height
