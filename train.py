@@ -383,7 +383,7 @@ if __name__ == '__main__':
                         type=str, help='path to the filenames text file for online evaluation')
 
     parser.add_argument('--min_depth_eval', type=float, help='minimum depth for evaluation', default=1e-3)
-    parser.add_argument('--max_depth_eval', type=float, help='maximum depth for evaluation', default=10)
+    parser.add_argument('--max_depth_eval', type=float, help='maximum depth for evaluation', default=80)
     parser.add_argument('--eigen_crop', default=True, help='if set, crops according to Eigen NIPS14',
                         action='store_true')
     parser.add_argument('--garg_crop', help='if set, crops according to Garg  ECCV16', action='store_true')
