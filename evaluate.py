@@ -134,7 +134,7 @@ def eval(model, test_loader, args, gpus=None, ):
             #             gt = gt[valid_mask]
             #             final = final[valid_mask]
 
-            metrics.update(compute_errors(gt[valid_mask]*12.8, final[valid_mask]))
+            metrics.update(compute_errors(gt[valid_mask], final[valid_mask]))
 
     print(f"Total invalid: {total_invalid}")
     metrics = {k: round(v, 3) for k, v in metrics.get_value().items()}
@@ -174,7 +174,7 @@ if __name__ == '__main__':
 
     parser.add_argument('--input_height', type=int, help='input height', default=480)
     parser.add_argument('--input_width', type=int, help='input width', default=640)
-    parser.add_argument('--max_depth', type=float, help='maximum depth in estimation', default=10)
+    parser.add_argument('--max_depth', type=float, help='maximum depth in estimation', default=80)
     parser.add_argument('--min_depth', type=float, help='minimum depth in estimation', default=1e-3)
 
     parser.add_argument('--do_kb_crop', help='if set, crop input images as kitti benchmark images', action='store_true')
@@ -193,7 +193,7 @@ if __name__ == '__main__':
                         help="checkpoint file to use for prediction", default='./pretrained/AdaBins_kitti.pt')
 
     parser.add_argument('--min_depth_eval', type=float, help='minimum depth for evaluation', default=1e-3)
-    parser.add_argument('--max_depth_eval', type=float, help='maximum depth for evaluation', default=10)
+    parser.add_argument('--max_depth_eval', type=float, help='maximum depth for evaluation', default=80)
     parser.add_argument('--eigen_crop', help='if set, crops according to Eigen NIPS14', type=bool, default=True)
     parser.add_argument('--garg_crop', help='if set, crops according to Garg  ECCV16', action='store_true')
     parser.add_argument('--do_kb_crop', help='Use kitti benchmark cropping', action='store_true')
