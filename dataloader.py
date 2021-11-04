@@ -126,7 +126,7 @@ class DataLoadPreprocess(Dataset):
             else:
                 depth_gt = depth_gt / 256.0
             # depth_gt = (depth_gt - depth_gt.min()) / (depth_gt.max() - depth_gt.min())  # normalize to 0-1
-
+            depth_gt = depth_gt * 256.0
             image, depth_gt = self.random_crop(image, depth_gt, self.args.input_height, self.args.input_width)
             image, depth_gt = self.train_preprocess(image, depth_gt)
             sample = {'image': image, 'depth': depth_gt, 'focal': focal}
@@ -158,7 +158,7 @@ class DataLoadPreprocess(Dataset):
                         depth_gt = depth_gt / 1000.0
                     else:
                         depth_gt = depth_gt / 256.0
-
+                depth_gt = depth_gt * 256.0
                 # depth_gt = (depth_gt - depth_gt.min()) / (depth_gt.max() - depth_gt.min())  # normalize to 0-1
             if self.args.do_kb_crop is True:
                 height = image.shape[0]
@@ -166,7 +166,7 @@ class DataLoadPreprocess(Dataset):
                 # top_margin = int(height - 352)
                 # left_margin = int((width - 1216) / 2)
                 # image = image[top_margin:top_margin + 352, left_margin:left_margin + 1216, :]
-                image = image[0:has_valid_depth, 0:width, :]
+                image = image[0,height, 0:width, :]
                 if self.mode == 'online_eval' and has_valid_depth:
                     # depth_gt = depth_gt[top_margin:top_margin + 352, left_margin:left_margin + 1216, :]
                     depth_gt = depth_gt[0:height, 0:width, :]
