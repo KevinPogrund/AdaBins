@@ -349,7 +349,7 @@ if __name__ == '__main__':
     parser.add_argument("--tags", default='sweep', type=str, help="Wandb tags")
 
     parser.add_argument("--workers", default=11, type=int, help="Number of workers for data loading")
-    parser.add_argument("--dataset", default='nyu', type=str, help="Dataset to train on")
+    parser.add_argument("--dataset", default='kitti', type=str, help="Dataset to train on")
 
     parser.add_argument("--data_path", default='./Unstructured/train/rgb/', type=str,
                         help="path to dataset")
