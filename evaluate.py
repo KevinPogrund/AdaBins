@@ -134,7 +134,7 @@ def eval(model, test_loader, args, gpus=None, ):
             #             gt = gt[valid_mask]
             #             final = final[valid_mask]
 
-            metrics.update(compute_errors(gt[valid_mask], final[valid_mask]))
+            metrics.update(compute_errors(gt[valid_mask]*256.0, final[valid_mask]))
 
     print(f"Total invalid: {total_invalid}")
     metrics = {k: round(v, 3) for k, v in metrics.get_value().items()}
